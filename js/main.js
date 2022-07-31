@@ -1,5 +1,4 @@
 var slide = "gf_ga"
-// var firstRun = true;
 //gf_ga, won_lost, past_few
 
 // set the dimensions and margins of the graph
@@ -12,14 +11,17 @@ function setupSVG() {
     document.getElementById("my_dataviz").setAttribute("current-slide", slide);
 
     async function loadAllData() {
-        // if (document.getElementById("my_dataviz").getAttribute("current-slide") == "age") {
-        //     data = await d3.csv("/data/obesity.csv");
-        // }
-        // else {
         data = await d3.csv("https://raw.githubusercontent.com/kb-rahul/DataViz/main/data/" + slide + ".csv");
-        // }
         clearOldData();
         loadPageData();
+        if (slide == "gf_ga") {
+            document.getElementById("svg_title").innerHTML = "Season 2021-2022: Goals For and Goals Against (First Slide: Press Next Slide Button)";
+        }
+        else if (slide == 'won_lost') {
+            document.getElementById("svg_title").innerHTML = "Season 2021-2022: Games won and lost";
+        } else { 
+            document.getElementById("svg_title").innerHTML = "Seasonal Points from 2016-2022 (Reached Last Slide: Press Previous Slide Button)";
+        }
     }
 
     function clearOldData() {
@@ -29,19 +31,6 @@ function setupSVG() {
     // NEED TO FINISH
     function loadPageData() {
         plotStackedBar(data);
-        // console.log("CLICK! Loading new data...")
-
-        // FIX BOTH PLOTS
-        // plot initial data (plotInitData)
-        // if (document.getElementById("my_dataviz").getAttribute("current-slide") == "age") {
-        //     // plotScatter(data);
-        //     plotStackedBar(data);
-        // }
-        // else {
-        //     plotStackedBar(data);
-        // }
-        // NEEDS WORK
-        // plot transitions (plotDataWithTransitions(newData))
     }
 
     function plotStackedBar(data) {
@@ -51,15 +40,10 @@ function setupSVG() {
             .attr("id", "scene-1-svg")
             .attr("preserveAspectRatio", "xMinYMin meet")
             .attr("viewBox", "0 0 1050 800")
-            // .attr("width", width + margin.left + margin.right)
-            // .attr("height", height + margin.top + margin.bottom)
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // List of subgroups = header of the csv files = soil condition here
         var subgroups = data.columns.slice(1)
-        // console.log(subgroups)
-        // List of groups = obesity levels here = value of the first column called group -> I show them on the X axis
         if (document.getElementById("my_dataviz").getAttribute("current-slide") == "past_few") {
             var groups = d3.map(data, function(d){return(d.year)}).keys();
         }
@@ -73,7 +57,6 @@ function setupSVG() {
             .range([0, width])
             .padding([0.2])
         svg.append("g")
-            // .attr("class", "axisText")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x).tickSizeOuter(0))
             .selectAll("text")
@@ -85,11 +68,8 @@ function setupSVG() {
             .domain([0, 100])
             .range([ height, 0 ]);
         svg.append("g")
-            // .attr("class", "axis")
-            // .attr("class", "Y-axis")
             .call(d3.axisLeft(y));
 
-        // color palette = one color per subgroup
         if (slide == "gf_ga") {
             var color = d3.scaleOrdinal()
                 .domain(subgroups)
@@ -108,9 +88,6 @@ function setupSVG() {
                 .range(["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65"])
             var legend_title = "Comparative Performance (2016-2022)"
         }
-        // MORE COLORS (if necessary): "#fe4644", "#ff881a", "#86d59c", "#33a3ff", "#3cfdea", "#81adff", "#ffff1a"
-        // Pallete colours: ["#ea5545", "#f46a9b", "#ef9b20", "#edbf33", "#ede15b", "#bdcf32", "#87bc45", "#27aeef", "#b33dc6"]
-
         // Legend
         var offset_legend = 25;
         // Legend icons
@@ -147,14 +124,10 @@ function setupSVG() {
                 .style("font-size", width * 0.0175)
 
 
-        // Normalize the data -> sum of each group must be 100!
-        // console.log(data)
         dataNormalized = []
         data.forEach(function(d){
-            // Compute the total
             tot = 0
             for (i in subgroups){ name=subgroups[i] ; tot += +d[name] }
-            // Now normalize
             for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
         })
 
@@ -275,19 +248,9 @@ function setupSVG() {
         addAnnotationsStackedBar();
     }
 
-    // NEEDS WORK
-    function plotStackedBarTransition() {
-
-    }
-
-    // NEEDS WORK
-    function plotScatter() {
-
-    }
 
     function addAnnotationsStackedBar() {
         var svg = d3.select("#scene-1-svg");
-        // console.log("addAnnotationsStackedBar is CALLED!")
         svg.selectAll(".annotation-group").remove()
 
         if (document.getElementById("my_dataviz").getAttribute("current-slide") == "gf_ga") {
@@ -303,10 +266,8 @@ function setupSVG() {
                     height: height * 1.01,
                 },
                 color: ["white"],
-                // ROI coords
                 x: width * 0.175,
                 y: height * 0.090,
-                // label/text coords
                 dy: 250,
                 dx: 670
             }]
@@ -317,21 +278,6 @@ function setupSVG() {
                     label: "Liverpool narrowly miss out on the championship but contested closely with Manchester City",
                     title: "Dominant Win Ratio"
                 },
-                // type: d3.annotationCalloutCircle,
-                // subject: {
-                //     radius: 100,
-                //     radiusPadding: 10,
-                // },
-                // // ROI/subject x/y
-                // x: width * 0.15,
-                // y: height * 0.1,
-                // // offset label/text from ROI
-                // dy: 0,
-                // dx: 110,
-
-                // data: {
-                //     color: ["white"]
-                // }
                 type: d3.annotationCalloutRect,
                 subject: {
                     // ROI width/height
@@ -449,27 +395,3 @@ function prevSlide() {
     }
     updateSVG(chosenSlide)
 }
-
-// Pagination
-// var pageItem = $(".pagination li").not(".prev,.next");
-// var prev = $(".pagination li.prev");
-// var next = $(".pagination li.next");
-
-// pageItem.click(function () {
-//     pageItem.removeClass("active");
-//     $(this).not(".prev,.next").addClass("active");
-// });
-
-// next.click(function () {
-
-//     if ($('li.active').next().not(".next").length == 1) {
-//         $('li.active').removeClass('active').next().addClass('active');
-//     }
-// });
-
-// prev.click(function () {
-
-//     if ($('li.active').prev().not(".prev").length == 1) {
-//         $('li.active').removeClass('active').prev().addClass('active');
-//     }
-// });
