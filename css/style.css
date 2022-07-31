@@ -1,0 +1,98 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    background: rgb(49, 53, 55);
+}
+
+p, h1, h2, h3, h4 {
+    color:rgb(206, 206, 206);
+    margin-left: 80px;
+}
+
+text {
+    fill:lightgrey;
+}
+.select {
+    font: bold 14px Verdana;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    cursor: pointer;
+}
+
+.domain {
+    stroke:white;
+}
+
+.axisText {
+    font: 20px sans-serif;
+}
+
+/* Annotations */
+
+.subject {
+    stroke-width: 2;
+    stroke-dasharray: 2px;
+    fill: none
+}
+
+.annotation-note-title,.annotation-note-label {
+    fill:white;
+}
+/* :root {
+    --annotation-context-color: white;
+} */
+.annotation path {
+    stroke: white;
+}
+/* .annotation-note-label {
+    fill:white;
+} */
+
+/* Page buttons */
+.nonClick {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pagination>.nonClick>a {
+    color: grey;
+}
+
+.pagination>.active>a {
+    color: white;
+}
+
+.button-one {
+    background: #6e15ce; /* background color */
+}
+.button-two {
+    background: #f15640;
+}
+.button-three {
+    background: #27c9b8;
+}
+.button-one,
+.button-two,
+.button-three {
+    color: #1d1d1d; /* text color */
+    display: inline-block;
+    border-radius: 0; /* square corners */
+    padding: 10px 18px; /* space around text */
+    text-transform: uppercase; /* all capital letters */
+    font-weight: 700;
+    letter-spacing: 1px;
+    -moz-transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+.button-one:hover,
+.button-two:hover,
+.button-three:hover {
+    background: #fff;
+}
