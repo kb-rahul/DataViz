@@ -15,12 +15,12 @@ function setupSVG() {
         clearOldData();
         loadPageData();
         if (slide == "gf_ga") {
-            document.getElementById("svg_title").innerHTML = "Season 2021-2022: Goals For and Goals Against (First Slide: Press Next Slide Button)";
+            document.getElementById("svg_title").innerHTML = "Season 2022: Goals Scored vs Goals Conceded (First Slide: Press Next Slide Button)";
         }
         else if (slide == 'won_lost') {
-            document.getElementById("svg_title").innerHTML = "Season 2021-2022: Games won and lost";
+            document.getElementById("svg_title").innerHTML = "Season 2022: Games Won/Draw/Lost";
         } else { 
-            document.getElementById("svg_title").innerHTML = "Seasonal Points from 2016-2022 (Reached Last Slide: Press Previous Slide Button)";
+            document.getElementById("svg_title").innerHTML = "Season 2016-2022: Points Tally (Reached Last Slide: Press Previous Slide Button)";
         }
     }
 
@@ -131,7 +131,6 @@ function setupSVG() {
             for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
         })
 
-        //stack the data? --> stack per subgroup
         var stackedData = d3.stack()
             .keys(subgroups)
             (data)
@@ -140,7 +139,6 @@ function setupSVG() {
         // Create a tooltip
         // ----------------
 
-        // Format sig figs
         var formatSuffixDecimal2 = d3.format(".2f");
 
         // original
@@ -186,8 +184,6 @@ function setupSVG() {
             // ----------------
             // Reduce opacity of all rect to 0.2
             d3.selectAll(".myRect").style("opacity", 0.2)
-            // Highlight all rects of this subgroup with opacity 0.8. It is possible to select them since they have a specific class = their name.
-            // d3.selectAll("."+subgroupName) <--- BROKEN
             d3.select(this.parentNode).style("opacity", 1)
         }
         var mousemove = function(d) {
